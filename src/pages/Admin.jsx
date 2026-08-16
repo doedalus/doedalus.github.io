@@ -40,7 +40,7 @@ export default function Admin() {
     api
       .getBooks({ search: debouncedSearch, skip, limit: LIMIT })
       .then(setBooks)
-      .catch((err) => setListError(err.detail || 'Не удалось загрузить книги'))
+      .catch((err) => setListError(err.detail || 'Could not load books'))
       .finally(() => setLoading(false))
   }
 
@@ -66,7 +66,7 @@ export default function Admin() {
       setCreateForm(emptyForm)
       load()
     } catch (err) {
-      if (!handleForbidden(err)) setCreateError(err.detail || 'Не удалось создать книгу')
+      if (!handleForbidden(err)) setCreateError(err.detail || 'Could not create book')
     } finally {
       setCreating(false)
     }
@@ -90,21 +90,21 @@ export default function Admin() {
       setBooks((prev) => prev.map((b) => (b.id === id ? updated : b)))
       cancelEdit()
     } catch (err) {
-      if (!handleForbidden(err)) setErrorFor(id, err.detail || 'Не удалось сохранить книгу')
+      if (!handleForbidden(err)) setErrorFor(id, err.detail || 'Could not save book')
     } finally {
       setBusyFor(id, false)
     }
   }
 
   const handleDelete = async (id) => {
-    if (!confirm('Удалить книгу из каталога? Это также удалит все связанные записи и отзывы.')) return
+    if (!confirm('Delete this book from the catalog? This will also delete all related entries and reviews.')) return
     setErrorFor(id, '')
     setBusyFor(id, true)
     try {
       await api.deleteBook(id)
       setBooks((prev) => prev.filter((b) => b.id !== id))
     } catch (err) {
-      if (!handleForbidden(err)) setErrorFor(id, err.detail || 'Не удалось удалить книгу')
+      if (!handleForbidden(err)) setErrorFor(id, err.detail || 'Could not delete book')
     } finally {
       setBusyFor(id, false)
     }
@@ -112,22 +112,22 @@ export default function Admin() {
 
   return (
     <div className="page">
-      <div className="eyebrow">Только для администраторов</div>
-      <h1>Управление каталогом</h1>
+      <div className="eyebrow">Admins only</div>
+      <h1>Manage Catalog</h1>
 
       {forbidden && (
         <div className="error-banner">
-          Доступ запрещён: эта учётная запись не является администратором. Действия, требующие прав
-          администратора, отклонены сервером.
+          Access denied: this account is not an administrator. Actions requiring admin
+          rights are rejected by the server.
         </div>
       )}
 
-      <h2 style={{ marginTop: 32 }}>Добавить книгу</h2>
+      <h2 style={{ marginTop: 32 }}>Add a book</h2>
       <form onSubmit={handleCreate} className="panel">
         <ErrorBanner message={createError} />
         <div className="form-row">
           <div className="field">
-            <label htmlFor="c-title">Название</label>
+            <label htmlFor="c-title">Title</label>
             <input
               id="c-title"
               required
@@ -136,7 +136,7 @@ export default function Admin() {
             />
           </div>
           <div className="field">
-            <label htmlFor="c-author">Автор</label>
+            <label htmlFor="c-author">Author</label>
             <input
               id="c-author"
               required
@@ -146,7 +146,7 @@ export default function Admin() {
           </div>
         </div>
         <div className="field">
-          <label htmlFor="c-description">Описание</label>
+          <label htmlFor="c-description">Description</label>
           <textarea
             id="c-description"
             required
@@ -155,17 +155,17 @@ export default function Admin() {
           />
         </div>
         <button className="btn btn--primary" type="submit" disabled={creating}>
-          {creating ? 'Добавляем…' : 'Добавить книгу'}
+          {creating ? 'Adding…' : 'Add book'}
         </button>
       </form>
 
       <div className="rosette-divider rosette-divider--soft" style={{ margin: '36px 0' }} />
 
-      <h2>Все книги</h2>
+      <h2>All books</h2>
       <div className="toolbar">
         <input
           className="search-input"
-          placeholder="Поиск по названию или автору…"
+          placeholder="Search by title or author…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -173,18 +173,18 @@ export default function Admin() {
       <ErrorBanner message={listError} />
 
       {loading ? (
-        <div className="spinner-text">Загрузка…</div>
+        <div className="spinner-text">Loading…</div>
       ) : books.length === 0 ? (
         <div className="empty-state">
-          <p>Ничего не нашлось.</p>
+          <p>No books found.</p>
         </div>
       ) : (
         <table className="admin-table">
           <thead>
             <tr>
-              <th>Название</th>
-              <th>Автор</th>
-              <th>Описание</th>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Description</th>
               <th></th>
             </tr>
           </thead>
@@ -219,10 +219,10 @@ export default function Admin() {
                           disabled={rowBusy[book.id]}
                           onClick={() => handleUpdate(book.id)}
                         >
-                          Сохранить
+                          Save
                         </button>
                         <button className="btn btn--small btn--ghost" onClick={cancelEdit}>
-                          Отмена
+                          Cancel
                         </button>
                       </div>
                     </td>
@@ -235,14 +235,14 @@ export default function Admin() {
                     <td>
                       <div className="actions-row">
                         <button className="btn btn--small btn--ghost" onClick={() => startEdit(book)}>
-                          Изменить
+                          Edit
                         </button>
                         <button
                           className="btn btn--small btn--danger"
                           disabled={rowBusy[book.id]}
                           onClick={() => handleDelete(book.id)}
                         >
-                          Удалить
+                          Delete
                         </button>
                       </div>
                     </td>

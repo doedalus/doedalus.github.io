@@ -24,7 +24,7 @@ export default function Auth() {
       await login(loginForm.username, loginForm.password)
       navigate(from, { replace: true })
     } catch (err) {
-      setError(err instanceof ApiError ? err.detail : 'Не удалось войти')
+      setError(err instanceof ApiError ? err.detail : 'Could not sign in')
     } finally {
       setBusy(false)
     }
@@ -38,7 +38,7 @@ export default function Auth() {
       await register(registerForm.username, registerForm.email, registerForm.password)
       navigate(from, { replace: true })
     } catch (err) {
-      setError(err instanceof ApiError ? err.detail : 'Не удалось зарегистрироваться')
+      setError(err instanceof ApiError ? err.detail : 'Could not register')
     } finally {
       setBusy(false)
     }
@@ -46,15 +46,15 @@ export default function Auth() {
 
   return (
     <div className="page page--narrow">
-      <div className="eyebrow">Доступ в библиотеку</div>
-      <h1>{tab === 'login' ? 'Вход' : 'Регистрация'}</h1>
+      <div className="eyebrow">Library access</div>
+      <h1>{tab === 'login' ? 'Sign in' : 'Register'}</h1>
 
       <div className="tabs">
         <button className={tab === 'login' ? 'active' : ''} onClick={() => { setTab('login'); setError('') }}>
-          Вход
+          Sign in
         </button>
         <button className={tab === 'register' ? 'active' : ''} onClick={() => { setTab('register'); setError('') }}>
-          Регистрация
+          Register
         </button>
       </div>
 
@@ -63,7 +63,7 @@ export default function Auth() {
       {tab === 'login' ? (
         <form onSubmit={handleLogin} className="panel">
           <div className="field">
-            <label htmlFor="login-username">Имя пользователя</label>
+            <label htmlFor="login-username">Username</label>
             <input
               id="login-username"
               required
@@ -74,7 +74,7 @@ export default function Auth() {
             />
           </div>
           <div className="field">
-            <label htmlFor="login-password">Пароль</label>
+            <label htmlFor="login-password">Password</label>
             <input
               id="login-password"
               type="password"
@@ -86,13 +86,13 @@ export default function Auth() {
             />
           </div>
           <button className="btn btn--primary" disabled={busy} type="submit">
-            {busy ? 'Входим…' : 'Войти'}
+            {busy ? 'Signing in…' : 'Sign in'}
           </button>
         </form>
       ) : (
         <form onSubmit={handleRegister} className="panel">
           <div className="field">
-            <label htmlFor="reg-username">Имя пользователя</label>
+            <label htmlFor="reg-username">Username</label>
             <input
               id="reg-username"
               required
@@ -113,7 +113,7 @@ export default function Auth() {
             />
           </div>
           <div className="field">
-            <label htmlFor="reg-password">Пароль</label>
+            <label htmlFor="reg-password">Password</label>
             <input
               id="reg-password"
               type="password"
@@ -123,10 +123,10 @@ export default function Auth() {
               value={registerForm.password}
               onChange={(e) => setRegisterForm({ ...registerForm, password: e.target.value })}
             />
-            <span className="field-hint">Минимум 8 символов</span>
+            <span className="field-hint">At least 8 characters</span>
           </div>
           <button className="btn btn--primary" disabled={busy} type="submit">
-            {busy ? 'Регистрируем…' : 'Зарегистрироваться'}
+            {busy ? 'Registering…' : 'Register'}
           </button>
         </form>
       )}

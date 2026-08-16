@@ -6,11 +6,11 @@ export default function Pagination({ skip, limit, count, onPrev, onNext }) {
   return (
     <div className="pagination">
       <button className="btn btn--small btn--ghost" onClick={onPrev} disabled={!hasPrev}>
-        ← Назад
+        ← Prev
       </button>
-      <span>Страница {page}</span>
+      <span>Page {page}</span>
       <button className="btn btn--small btn--ghost" onClick={onNext} disabled={!hasNext}>
-        Вперёд →
+        Next →
       </button>
     </div>
   )

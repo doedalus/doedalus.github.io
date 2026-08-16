@@ -14,32 +14,32 @@ export default function Navbar() {
     <header className="navbar">
       <div className="navbar__inner">
         <NavLink to="/" className="navbar__brand">
-          <span className="mark">𒀭</span> Эсагила
+          <span className="mark">𒀭</span> Esagila
         </NavLink>
         <nav className="navbar__links">
           <NavLink to="/" end className={({ isActive }) => (isActive ? 'active' : '')}>
-            Каталог
+            Catalog
           </NavLink>
           {user && (
             <NavLink to="/library" className={({ isActive }) => (isActive ? 'active' : '')}>
-              Моя библиотека
+              My Library
             </NavLink>
           )}
           {user?.role === 'ADMIN' && (
             <NavLink to="/admin" className={({ isActive }) => (isActive ? 'active' : '')}>
-              Каталог (управление)
+              Manage Catalog
             </NavLink>
           )}
           {user ? (
             <>
               <span className="navbar__user">{user.username}</span>
               <button className="btn btn--ghost btn--small" onClick={handleLogout}>
-                Выйти
+                Log out
               </button>
             </>
           ) : (
             <NavLink to="/auth" className={({ isActive }) => (isActive ? 'active' : '')}>
-              Войти
+              Sign in
             </NavLink>
           )}
         </nav>

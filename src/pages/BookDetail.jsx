@@ -30,7 +30,7 @@ export default function BookDetail() {
       setBook(b)
       setReviews(r)
     } catch (err) {
-      setError(err.detail || 'Не удалось загрузить книгу')
+      setError(err.detail || 'Could not load this book')
     } finally {
       setLoading(false)
     }
@@ -72,10 +72,10 @@ export default function BookDetail() {
     try {
       const entry = await api.addToLibrary(bookId, { rating: form.rating, review: form.review || null })
       setMyEntry(entry)
-      setNotice('Книга добавлена в вашу библиотеку.')
+      setNotice('Book added to your library.')
       loadBook()
     } catch (err) {
-      setSaveError(err.detail || 'Не удалось добавить книгу')
+      setSaveError(err.detail || 'Could not add this book')
     } finally {
       setSaving(false)
     }
@@ -89,38 +89,38 @@ export default function BookDetail() {
     try {
       const entry = await api.updateLibraryEntry(bookId, { rating: form.rating, review: form.review || null })
       setMyEntry(entry)
-      setNotice('Изменения сохранены.')
+      setNotice('Changes saved.')
       loadBook()
     } catch (err) {
-      setSaveError(err.detail || 'Не удалось сохранить изменения')
+      setSaveError(err.detail || 'Could not save changes')
     } finally {
       setSaving(false)
     }
   }
 
   const handleRemove = async () => {
-    if (!confirm('Убрать книгу из своей библиотеки?')) return
+    if (!confirm('Remove this book from your library?')) return
     setSaving(true)
     setSaveError('')
     try {
       await api.removeFromLibrary(bookId)
       setMyEntry(null)
       setForm({ rating: null, review: '' })
-      setNotice('Книга удалена из вашей библиотеки.')
+      setNotice('Book removed from your library.')
       loadBook()
     } catch (err) {
-      setSaveError(err.detail || 'Не удалось удалить книгу')
+      setSaveError(err.detail || 'Could not remove this book')
     } finally {
       setSaving(false)
     }
   }
 
-  if (loading) return <div className="spinner-text">Загрузка…</div>
+  if (loading) return <div className="spinner-text">Loading…</div>
   if (error) {
     return (
       <div className="page">
         <ErrorBanner message={error} />
-        <Link to="/">← Назад в каталог</Link>
+        <Link to="/">← Back to catalog</Link>
       </div>
     )
   }
@@ -129,7 +129,7 @@ export default function BookDetail() {
   return (
     <div className="page">
       <Link to="/" className="eyebrow">
-        ← Каталог
+        ← Catalog
       </Link>
 
       <div className="book-detail-head">
@@ -147,7 +147,7 @@ export default function BookDetail() {
         {book.avg_rating != null ? (
           <span className="rating-badge">★ {book.avg_rating.toFixed(1)} / 10</span>
         ) : (
-          <span className="rating-badge rating-badge--muted">Нет оценок</span>
+          <span className="rating-badge rating-badge--muted">No ratings yet</span>
         )}
       </div>
 
@@ -155,39 +155,39 @@ export default function BookDetail() {
 
       <div className="rosette-divider rosette-divider--soft" style={{ margin: '36px 0' }} />
 
-      <h2>Ваша запись</h2>
+      <h2>Your entry</h2>
       {!user ? (
         <p className="field-hint">
-          <Link to="/auth">Войдите</Link>, чтобы добавить эту книгу в свою библиотеку и оставить отзыв.
+          <Link to="/auth">Sign in</Link> to add this book to your library and leave a review.
         </p>
       ) : entryLoading ? (
-        <div className="spinner-text">Загрузка…</div>
+        <div className="spinner-text">Loading…</div>
       ) : (
         <div className="panel">
           <ErrorBanner message={saveError} />
           {notice && <div className="success-banner">{notice}</div>}
           <form onSubmit={myEntry ? handleUpdate : handleAdd}>
             <div className="field">
-              <label htmlFor="rating">Оценка</label>
+              <label htmlFor="rating">Rating</label>
               <RatingInput value={form.rating} onChange={(v) => setForm({ ...form, rating: v })} />
             </div>
             <div className="field">
-              <label htmlFor="review">Отзыв</label>
+              <label htmlFor="review">Review</label>
               <textarea
                 id="review"
                 maxLength={1000}
-                placeholder="Что вы думаете об этой книге?"
+                placeholder="What did you think of this book?"
                 value={form.review}
                 onChange={(e) => setForm({ ...form, review: e.target.value })}
               />
             </div>
             <div className="actions-row">
               <button className="btn btn--primary" type="submit" disabled={saving}>
-                {myEntry ? (saving ? 'Сохраняем…' : 'Сохранить') : saving ? 'Добавляем…' : 'Добавить в библиотеку'}
+                {myEntry ? (saving ? 'Saving…' : 'Save') : saving ? 'Adding…' : 'Add to library'}
               </button>
               {myEntry && (
                 <button type="button" className="btn btn--danger" disabled={saving} onClick={handleRemove}>
-                  Убрать из библиотеки
+                  Remove from library
                 </button>
               )}
             </div>
@@ -197,10 +197,10 @@ export default function BookDetail() {
 
       <div className="rosette-divider rosette-divider--soft" style={{ margin: '36px 0' }} />
 
-      <h2>Отзывы {reviews.length > 0 && `(${reviews.length})`}</h2>
+      <h2>Reviews {reviews.length > 0 && `(${reviews.length})`}</h2>
       {reviews.length === 0 ? (
         <div className="empty-state">
-          <p>Пока никто не оставил отзыв на эту книгу.</p>
+          <p>No one has reviewed this book yet.</p>
         </div>
       ) : (
         <div>
@@ -211,7 +211,7 @@ export default function BookDetail() {
                 {r.rating != null ? (
                   <span className="rating-badge">{r.rating} / 10</span>
                 ) : (
-                  <span className="rating-badge rating-badge--muted">Без оценки</span>
+                  <span className="rating-badge rating-badge--muted">No rating</span>
                 )}
               </div>
               {r.review && <p>{r.review}</p>}

@@ -23,7 +23,7 @@ export function clearTokens() {
 
 export class ApiError extends Error {
   constructor(status, detail) {
-    super(typeof detail === 'string' ? detail : 'Ошибка запроса')
+    super(typeof detail === 'string' ? detail : 'Request failed')
     this.status = status
     this.detail = detail
   }
@@ -32,21 +32,21 @@ export class ApiError extends Error {
 // Extracts a human-readable message from FastAPI's error shape
 // (which can be a string, or a list of pydantic validation errors).
 function extractDetailMessage(detail) {
-  if (!detail) return 'Что-то пошло не так'
+  if (!detail) return 'Something went wrong'
   if (typeof detail === 'string') return detail
   if (Array.isArray(detail)) {
     return detail
       .map((e) => e.msg || JSON.stringify(e))
       .join('; ')
   }
-  return 'Что-то пошло не так'
+  return 'Something went wrong'
 }
 
 let refreshPromise = null
 
 async function doRefresh() {
   const refresh_token = getRefreshToken()
-  if (!refresh_token) throw new ApiError(401, 'Не авторизован')
+  if (!refresh_token) throw new ApiError(401, 'Not authenticated')
 
   const res = await fetch(`${API_URL}/auth/refresh`, {
     method: 'POST',
@@ -100,7 +100,7 @@ export async function apiFetch(path, { method = 'GET', body, auth = false, param
     } catch (e) {
       refreshPromise = null
       clearTokens()
-      throw new ApiError(401, 'Сессия истекла, войдите снова')
+      throw new ApiError(401, 'Session expired, please sign in again')
     }
     refreshPromise = null
     res = await doFetch()

@@ -32,7 +32,7 @@ export default function Books() {
         if (!cancelled) setBooks(data)
       })
       .catch((err) => {
-        if (!cancelled) setError(err.detail || 'Не удалось загрузить книги')
+        if (!cancelled) setError(err.detail || 'Could not load books')
       })
       .finally(() => {
         if (!cancelled) setLoading(false)
@@ -44,13 +44,13 @@ export default function Books() {
 
   return (
     <div className="page">
-      <div className="eyebrow">Каталог Эсагилы</div>
-      <h1>Книги</h1>
+      <div className="eyebrow">Esagila catalog</div>
+      <h1>Books</h1>
 
       <div className="toolbar">
         <input
           className="search-input"
-          placeholder="Поиск по названию или автору…"
+          placeholder="Search by title or author…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -59,10 +59,10 @@ export default function Books() {
       <ErrorBanner message={error} />
 
       {loading ? (
-        <div className="spinner-text">Загрузка…</div>
+        <div className="spinner-text">Loading…</div>
       ) : books.length === 0 ? (
         <div className="empty-state">
-          <p>Ничего не нашлось. Попробуйте другой запрос.</p>
+          <p>No books found. Try a different search.</p>
         </div>
       ) : (
         <div className="book-grid">

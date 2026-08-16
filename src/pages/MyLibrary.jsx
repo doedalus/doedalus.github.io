@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { api } from '../api/client'
 import Pagination from '../components/Pagination.jsx'
 import ErrorBanner from '../components/ErrorBanner.jsx'
+import BookCover from '../components/BookCover.jsx'
 
 const LIMIT = 20
 
@@ -22,7 +23,7 @@ export default function MyLibrary() {
         if (!cancelled) setItems(data)
       })
       .catch((err) => {
-        if (!cancelled) setError(err.detail || 'Не удалось загрузить библиотеку')
+        if (!cancelled) setError(err.detail || 'Could not load your library')
       })
       .finally(() => {
         if (!cancelled) setLoading(false)
@@ -34,35 +35,42 @@ export default function MyLibrary() {
 
   return (
     <div className="page">
-      <div className="eyebrow">Личное собрание</div>
-      <h1>Моя библиотека</h1>
+      <div className="eyebrow">Your collection</div>
+      <h1>My Library</h1>
 
       <ErrorBanner message={error} />
 
       {loading ? (
-        <div className="spinner-text">Загрузка…</div>
+        <div className="spinner-text">Loading…</div>
       ) : items.length === 0 ? (
         <div className="empty-state">
-          <p>Вы ещё не добавили ни одной книги.</p>
+          <p>You haven't added any books yet.</p>
           <Link to="/" className="btn btn--primary" style={{ display: 'inline-block', marginTop: 14 }}>
-            Перейти в каталог
+            Browse the catalog
           </Link>
         </div>
       ) : (
         <div>
           {items.map((entry) => (
             <div className="review-card" key={entry.book.id}>
-              <div className="review-card__head">
-                <Link to={`/books/${entry.book.id}`}>
-                  <strong>{entry.book.title}</strong> — {entry.book.author}
-                </Link>
-                {entry.rating != null ? (
-                  <span className="rating-badge">{entry.rating} / 10</span>
-                ) : (
-                  <span className="rating-badge rating-badge--muted">Без оценки</span>
-                )}
+              <div className="review-card__row">
+                <div className="review-card__cover">
+                  <BookCover title={entry.book.title} size="mini" />
+                </div>
+                <div className="review-card__body">
+                  <div className="review-card__head">
+                    <Link to={`/books/${entry.book.id}`}>
+                      <strong>{entry.book.title}</strong> — {entry.book.author}
+                    </Link>
+                    {entry.rating != null ? (
+                      <span className="rating-badge">{entry.rating} / 10</span>
+                    ) : (
+                      <span className="rating-badge rating-badge--muted">No rating</span>
+                    )}
+                  </div>
+                  {entry.review && <p>{entry.review}</p>}
+                </div>
               </div>
-              {entry.review && <p>{entry.review}</p>}
             </div>
           ))}
         </div>

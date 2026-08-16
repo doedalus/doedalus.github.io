@@ -14,9 +14,9 @@
   --color-vermillion-bright: #ff6a62;
   --color-success: #3fb950;
 
-  --font-display: 'Spectral', serif;
-  --font-body: 'Public Sans', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-display: 'Newsreader', serif;
+  --font-body: 'Figtree', system-ui, sans-serif;
+  --font-mono: 'Fira Code', monospace;
 
   --radius: 4px;
   --shadow-panel: 0 12px 40px -12px rgba(0, 0, 0, 0.55);
@@ -275,6 +275,68 @@ p {
   flex: 1;
 }
 
+/* ---------- star rating widget ---------- */
+
+.star-rating {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.star-rating__stars {
+  display: flex;
+  gap: 2px;
+}
+
+.star-rating__star {
+  background: none;
+  border: none;
+  padding: 3px;
+  margin: 0;
+  cursor: pointer;
+  color: var(--color-border);
+  line-height: 0;
+  transition: color 0.12s ease, transform 0.12s ease;
+}
+
+.star-rating__star svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.star-rating__star:hover,
+.star-rating__star:focus-visible {
+  transform: scale(1.15);
+}
+
+.star-rating__star.is-filled {
+  color: var(--color-gold);
+}
+
+.star-rating__value {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--color-sand-dim);
+  min-width: 56px;
+}
+
+.star-rating__clear {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-sand-dim);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.star-rating__clear:hover {
+  color: var(--color-vermillion-bright);
+}
+
 /* ---------- book cover placeholder ---------- */
 
 .book-cover {
@@ -382,6 +444,24 @@ p {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 6px;
+}
+
+.review-card__row {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.review-card__cover {
+  width: 44px;
+  flex-shrink: 0;
+}
+.review-card__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.book-cover--mini .book-cover__initial {
+  font-size: 1rem;
 }
 
 /* ---------- badges / rating ---------- */
