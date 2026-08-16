@@ -363,7 +363,7 @@ p {
   position: relative;
   font-family: var(--font-display);
   font-weight: 600;
-  color: var(--color-gold);
+  color: var(--cover-accent, var(--color-gold));
   opacity: 0.9;
 }
 
@@ -376,6 +376,18 @@ p {
 }
 .book-cover--detail .book-cover__initial {
   font-size: 3.2rem;
+}
+
+.book-card__cover {
+  position: relative;
+}
+
+.book-card__rating {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(13, 17, 23, 0.82);
+  backdrop-filter: blur(2px);
 }
 
 /* ---------- cards & panels ---------- */
@@ -622,4 +634,50 @@ p {
   padding: 10px;
   font-size: 0.88rem;
   vertical-align: top;
+}
+
+/* ---------- footer ---------- */
+
+.footer {
+  margin-top: 60px;
+}
+
+.footer__inner {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 24px 24px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.footer__brand {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--color-sand-dim);
+}
+.footer__brand .mark {
+  color: var(--color-gold-bright);
+}
+
+.footer__github {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-sand-dim);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+.footer__github:hover {
+  color: var(--color-gold-bright);
+  text-decoration: none;
+}
+
+.footer__copy {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-sand-faint);
 }
