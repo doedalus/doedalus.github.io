@@ -6,20 +6,15 @@ export default defineConfig(({ mode }) => {
   const port = Number(env.PORT || env.VITE_PORT || 3000)
 
   return {
-    plugins: [react()],
-
-    base: '/',
-
-    server: {
-      port,
-      strictPort: true,
-      host: '127.0.0.1',
-    },
-
-    preview: {
-      port,
-      strictPort: true,
-      host: '127.0.0.1',
-    },
-  }
-})
+  plugins: [react()],
+  server: {
+    port,
+    strictPort: true,
+    host: '127.0.0.1',
+  },
+  preview: {
+    port,
+    strictPort: true,
+    host: '127.0.0.1',
+  },
+}
